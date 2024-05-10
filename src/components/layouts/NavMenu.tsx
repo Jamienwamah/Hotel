@@ -1,8 +1,7 @@
-"use client"
-
+'use client'
 import * as React from "react"
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { BookOpenCheck, ChevronsUpDown, Hotel, Plus } from "lucide-react"
+
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,28 +10,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useRouter } from "next/navigation"
 
-export function ModeToggle() {
-  const { setTheme } = useTheme()
+
+
+export function NavMenu() {
+  const router = useRouter()
+
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <Sun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
+          <ChevronsUpDown/>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
+        <DropdownMenuItem className="cursor-pointer flex gap-2 items-center" onClick={() => router.push('/hotel/new')}>
+          <Plus size={15}/> <span>Add Hotel</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
+        <DropdownMenuItem className="cursor-pointer flex gap-2 items-center" onClick={() => router.push('/my-hotel')}>
+        <Hotel size={15}/><span>My Hotels</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
+        <DropdownMenuItem className="cursor-pointer flex gap-2 items-center" onClick={() => router.push('/my-bookings')}>
+          <BookOpenCheck size={15}/><span>My Bookings</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
