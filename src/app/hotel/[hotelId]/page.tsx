@@ -1,6 +1,6 @@
 import AddHotelForm from "@/components/hotel/AddHotelForm";
 import { getHotelById } from "../../../../actions/getHotelById";
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { useUser } from "@clerk/nextjs";
 
 interface HotelPageProps {
     params: {
@@ -10,16 +10,17 @@ interface HotelPageProps {
 
 const Hotel = async ({ params }: HotelPageProps) => {
     const hotel = await getHotelById(params.hotelId)
-    const {userId} = clerkMiddleware()
+    const { user } = useUser();
 
+    if (!user) return <div>Not authenticated...</div>;
 
-    if (!userId) return <div>Not authenticated...</div>
+    if (hotel && hotel.userId !== user.id) return <div>Access Denied</div>;
 
-    if (hotel && hotel.userId !== userId) return <div>Access Denied</div>
-
-    return (<div>
-        < AddHotelForm />
-    </div>);
+    return (
+        <div>
+            <AddHotelForm />
+        </div>
+    );
 }
 
 export default Hotel;
