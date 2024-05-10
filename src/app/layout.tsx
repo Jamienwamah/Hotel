@@ -8,9 +8,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Hotel Booking Management System",
+  title: "Hotel Booking Management System ",
   description:
-    "This is a hotel booking app that allows you to book hotels at your convenience",
+    "This is a hotel booking app that allows you to book hotels at your convienence",
   icons: { icon: "/next.svg" },
 };
 
@@ -24,12 +24,13 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange>
-            <main className="flex flex-col min-h-screen bg-secondary">
-              <NavBar />
-              <section className="flex-grow">
-                {children}
-              </section>
-            </main>
+          <main className="flex flex-col min-h-screen bg-secondary">
+            <NavBar />
+            <section className="flex-grow">
+              {children}
+
+            </section>
+          </main>
           </ThemeProvider>
         </body>
       </html>
