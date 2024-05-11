@@ -98,7 +98,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Hotel Title</FormLabel>
+                    <FormLabel>Hotel Title *</FormLabel>
                     <FormDescription>
                       Kindly provide your hotel name
                     </FormDescription>
@@ -114,10 +114,12 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Hotel Description</FormLabel>
+                    <FormLabel>Hotel Description *</FormLabel>
                     <FormDescription>
-                      Established as one of the best of her kind, <br />veron hotel is
-                      out to serve the public with lots of services that suits<br />
+                      Established as one of the best of her kind, <br />
+                      veron hotel is out to serve the public with lots of
+                      services that suits
+                      <br />
                       you while you decide to lodge with us
                     </FormDescription>
                     <FormControl>
@@ -131,7 +133,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 )}
               />
               <div>
-                <FormLabel>Services We Offer</FormLabel>
+                <FormLabel>Services We Offer *</FormLabel>
                 <FormDescription>
                   Veron hotel greatly values her customers, <br /> therefore
                   provides lots of services to her customer,
@@ -333,10 +335,18 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                   )}
                 />
               </div>
-
-              <div className="flex-1 flex flex-col gap-6"></div>
             </div>
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem className="flex flex-col space-y-3">
+                  <FormLabel>Please upload your image*</FormLabel>
+                </FormItem>
+              )}
+            />
           </div>
+          <div className="flex-1 flex flex-col gap-6"></div>
         </form>
       </Form>
     </div>

@@ -2,7 +2,6 @@
 import { auth, useUser } from "@clerk/nextjs";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
-import { useState } from "react"
  
 const f = createUploadthing();
  
