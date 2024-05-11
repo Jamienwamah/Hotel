@@ -18,7 +18,7 @@ const Hotel = async ({ params }: HotelPageProps) => {
 
     return (
         <div>
-            <AddHotelForm />
+            {hotel && <AddHotelForm hotel={hotel} />}
         </div>
     );
 }
