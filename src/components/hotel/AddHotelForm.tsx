@@ -16,6 +16,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import { UploadButton } from "@/utils/uploadthing";
 
 interface AddHotelFormProps {
   hotel: HotelWithRooms | null;
@@ -56,6 +58,7 @@ const formSchema = z.object({
   coffeeShop: z.boolean().optional(),
 });
 const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
+  const [image, settings] = useState<string | undefined>(hotel?.image);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -342,6 +345,31 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
               render={({ field }) => (
                 <FormItem className="flex flex-col space-y-3">
                   <FormLabel>Please upload your image*</FormLabel>
+                  <FormDescription>
+                    Kindly select an image for your hotel
+                  </FormDescription>
+                  <FormControl>
+                    {image ? (
+                      <></>
+                    ) : (
+                      <>
+                        <div className="flex flex-col items-center max-w-[400px]">
+                          <UploadButton
+                            endpoint="imageUploader"
+                            onClientUploadComplete={(res) => {
+                              // Do something with the response
+                              console.log("Files: ", res);
+                              alert("Upload Completed");
+                            }}
+                            onUploadError={(error: Error) => {
+                              // Do something with the error.
+                              alert(`ERROR! ${error.message}`);
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </FormControl>
                 </FormItem>
               )}
             />

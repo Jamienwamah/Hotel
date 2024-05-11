@@ -22,7 +22,7 @@ const NavBar = () => {
         >
           <Image src="/next.svg" alt="logo" width={30} height={30} />
           <div className="font-bold text-x1">
-            Hotel Booking Management System
+            Veron Hotel Booking Management System
           </div>
         </div>
         <Searchinput/>
@@ -31,7 +31,7 @@ const NavBar = () => {
             <ModeToggle/>
             <NavMenu/>
           </div>
-          <div>theme</div>
+          <div>Veron Hotel And Suites</div>
           <UserButton afterSignOutUrl="/" />
           {!userId && 
             <>
