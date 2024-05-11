@@ -1,21 +1,19 @@
 'use client'
-import { useUser } from "@clerk/nextjs";
+import { auth, useUser } from "@clerk/nextjs";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { useState } from "react"
  
 const f = createUploadthing();
  
-const auth = (req: Request) => ({ id: "fakeId" }); 
- 
 
 export const ourFileRouter = {
   imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(async ({ req }) => {
-      const [userId] = useState(null);
+      const {userId} = await auth();
       
  
-      if (!userId) throw new UploadThingError("Unauthorized");
+      if (!userId) throw new Error("Unauthorized");
  
       return { userId };
     })

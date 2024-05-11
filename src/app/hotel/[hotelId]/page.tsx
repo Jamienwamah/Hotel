@@ -1,46 +1,26 @@
-'use client'
-import React, { useEffect, useState } from 'react';
 import AddHotelForm from "@/components/hotel/AddHotelForm";
 import { getHotelById } from "../../../../actions/getHotelById";
-import { useUser } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 
 interface HotelPageProps {
-    params: {
-        hotelId: string
-    }
+  params: {
+    hotelId: string;
+  };
 }
 
-const Hotel = ({ params }: HotelPageProps) => {
-    const [hotel, setHotel] = useState<any>(null);
-    const { user } = useUser();
-    const [loading, setLoading] = useState(true);
+const Hotel = async ({ params }: HotelPageProps) => {
+  const hotel = await getHotelById(params.hotelId);
+  const { userId } = auth();
 
-    useEffect(() => {
-        const fetchHotel = async () => {
-            try {
-                const hotelData = await getHotelById(params.hotelId);
-                setHotel(hotelData);
-            } catch (error) {
-                console.error('Error fetching hotel:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+  if (!userId) return <div>Not authenticated...</div>;
 
-        fetchHotel();
-    }, [params.hotelId]);
+  if (hotel && hotel.userId !== userId) return <div>Access denied...</div>;
 
-    if (!user) return <div>Not authenticated...</div>;
-
-    if (loading) return <div>Loading...</div>;
-
-    if (hotel && hotel.userId !== user.id) return <div>Access Denied</div>;
-
-    return (
-        <div>
-            {hotel && <AddHotelForm hotel={hotel} />}
-        </div>
-    );
-}
+  return (
+    <div>
+      <AddHotelForm hotel={hotel} />
+    </div>
+  );
+};
 
 export default Hotel;

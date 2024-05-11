@@ -1,14 +1,22 @@
-'use client'
+"use client";
 import * as z from "zod";
 import { Hotel, Room } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 interface AddHotelFormProps {
-  hotel: HotelWithRooms;
+  hotel: HotelWithRooms | null
 }
 
 export type HotelWithRooms = Hotel & {
@@ -49,25 +57,25 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: hotel?.title || "",
-      description: hotel?.description || "",
-      image: hotel?.image || "",
-      country: hotel?.country ||"",
-      state: hotel?.state ||"",
-      city: hotel?.city ||"",
-      locationDescription: hotel?.locationDescription || "",
-      gym: hotel?.gym ||false,
-      spa: hotel?.spa ||false,
-      bar: hotel?.bar ||false,
-      laundry: hotel?.laundry ||false,
-      resturant: hotel?.resturant ||false,
-      shopping: hotel?.shopping ||false,
-      freeParking: hotel?.freeParking || false,
-      bikeRental: hotel?.bikeRental ||false,
-      freeWifi: hotel?.freeWifi ||false,
-      movieNight: hotel?.movieNight ||false,
-      swimmingPool: hotel?.swimmingPool || false,
-      coffeeShop: hotel?.coffeeShop ||false,
+      title:  "",
+      description:  "",
+      image:  "",
+      country:  "",
+      state:"",
+      city: "",
+      locationDescription: "",
+      gym:  false,
+      spa:  false,
+      bar:  false,
+      laundry:  false,
+      resturant:false,
+      shopping:  false,
+      freeParking:  false,
+      bikeRental: false,
+      freeWifi:  false,
+      movieNight:  false,
+      swimmingPool: false,
+      coffeeShop:  false,
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -78,23 +86,29 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control = {form.control}
+          <div className="flex flex-col md: flex-row gap-6">
+            <div>
+            <FormField
+            control={form.control}
             name="title"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Hotel Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Beach Hotel" {...field} />
-                </FormControl>
                 <FormDescription>
                   Kindly provide your hotel name
                 </FormDescription>
+                <FormControl>
+                  <Input placeholder="Beach Hotel" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <Button type="submit">Submit</Button>
+            </div>
+            <div></div>
+          </div>
+          
         </form>
       </Form>
     </div>

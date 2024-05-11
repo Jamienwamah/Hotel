@@ -4,7 +4,7 @@ export const getHotelById = async (hotelId: string) => {
     try {
         const hotel = await prismadb.hotel.findUnique({
             where: {
-                id: hotelId
+                id: hotelId,
             },
             include: {
                 rooms: true,
@@ -15,6 +15,6 @@ export const getHotelById = async (hotelId: string) => {
         return hotel;
 
     } catch (error: any) {
-        throw new Error(error)
+        throw new Error(error);
     }
 };
