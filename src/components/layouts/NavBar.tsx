@@ -31,7 +31,7 @@ const NavBar = () => {
             <ModeToggle/>
             <NavMenu/>
           </div>
-          <div>Veron Hotel And Suites</div>
+          <div>Veron Hotels</div>
           <UserButton afterSignOutUrl="/" />
           {!userId && 
             <>
