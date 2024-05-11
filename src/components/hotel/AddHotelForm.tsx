@@ -14,6 +14,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useToast } from "@/components/ui/use-toast"
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
@@ -58,7 +59,9 @@ const formSchema = z.object({
   coffeeShop: z.boolean().optional(),
 });
 const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
-  const [image, settings] = useState<string | undefined>(hotel?.image);
+  const [image, setImage] = useState<string | undefined>(hotel?.image);
+
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -86,6 +89,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
 
   return (
     <div>
@@ -350,20 +354,30 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                   </FormDescription>
                   <FormControl>
                     {image ? (
-                      <></>
+                      <>
+                      <div className="relative max-w-[400px] min-w-[200px] max-h-[400px] min-h-[200] mt-4 ">
+                        
+                        
+                      </div></>
                     ) : (
                       <>
-                        <div className="flex flex-col items-center max-w-[400px]">
+                        <div className="flex flex-col items-center max-w-[400px] p-12 border-2 border-dashed border-primary/50 rounded mt-4">
                           <UploadButton
                             endpoint="imageUploader"
                             onClientUploadComplete={(res) => {
                               // Do something with the response
                               console.log("Files: ", res);
-                              alert("Upload Completed");
+                              setImage (res[0].url)
+                              toast({
+                                variant: "success",
+                                description: "Upload Successful"
+                              })
                             }}
                             onUploadError={(error: Error) => {
-                              // Do something with the error.
-                              alert(`ERROR! ${error.message}`);
+                              toast({
+                                variant: "destructive",
+                                description: "ERROR! ${error.message}"
+                              })
                             }}
                           />
                         </div>
