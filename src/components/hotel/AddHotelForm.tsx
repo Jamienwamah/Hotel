@@ -1,4 +1,3 @@
-"use client";
 import * as z from "zod";
 import { Hotel, Room } from "@prisma/client";
 import { useForm } from "react-hook-form";
