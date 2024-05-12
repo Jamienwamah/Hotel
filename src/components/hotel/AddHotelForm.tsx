@@ -1,9 +1,9 @@
-"use client";
-import * as z from "zod";
-import { Hotel, Room } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
+'use client';
+import * as z from 'zod';
+import { Hotel, Room } from '@prisma/client';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import {
   Form,
   FormControl,
@@ -12,26 +12,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from '../ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { Textarea } from "../ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useEffect, useState } from "react";
-import { UploadButton } from "@/utils/uploadthing";
-import { Loader2, XCircle } from "lucide-react";
-import Image from "next/image";
-import useLocation from "../../../hooks/useLocation";
-import { ICity, IState } from "country-state-city";
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { Textarea } from '../ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useEffect, useState } from 'react';
+import { UploadButton } from '@/utils/uploadthing';
+import { Loader2, XCircle } from 'lucide-react';
+import Image from 'next/image';
+import useLocation from '../../../hooks/useLocation';
+import { ICity, IState } from 'country-state-city';
 
 interface AddHotelFormProps {
   hotel: HotelWithRooms | null;
@@ -42,21 +42,21 @@ export type HotelWithRooms = Hotel & {
 };
 const formSchema = z.object({
   title: z.string().min(3, {
-    message: "Title must be atleast 3 characters long",
+    message: 'Title must be atleast 3 characters long',
   }),
   description: z.string().min(10, {
-    message: "Description must be atleast 10 characters long",
+    message: 'Description must be atleast 10 characters long',
   }),
   image: z.string().min(1, {
-    message: "Please upload your image",
+    message: 'Please upload your image',
   }),
   country: z.string().min(1, {
-    message: "Kindly fill in your country to continue",
+    message: 'Kindly fill in your country to continue',
   }),
   state: z.string().optional(),
   city: z.string().optional(),
   locationDescription: z.string().min(10, {
-    message: "Title must be atleast 3 characters long",
+    message: 'Title must be atleast 3 characters long',
   }),
   gym: z.boolean().optional(),
   spa: z.boolean().optional(),
@@ -85,13 +85,13 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      image: "",
-      country: "",
-      state: "",
-      city: "",
-      locationDescription: "",
+      title: '',
+      description: '',
+      image: '',
+      country: '',
+      state: '',
+      city: '',
+      locationDescription: '',
       gym: false,
       spa: false,
       bar: false,
@@ -108,13 +108,13 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
   });
 
   useEffect(() => {
-    const selectedCountry = form.watch("country");
-    const selectedState = form.watch("state");
+    const selectedCountry = form.watch('country');
+    const selectedState = form.watch('state');
     const stateCities = getStateCities(selectedCountry, selectedState);
     if (stateCities) {
       setCities(stateCities);
     }
-  }, [form.watch("country"), form.watch("state")]);
+  }, [form.watch('country'), form.watch('state'), getStateCities]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -122,23 +122,23 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
 
   const handleImageDelete = (image: string) => {
     setImageIsDeleting(true);
-    const imageKey = image.substring(image.lastIndexOf("/") * 1);
+    const imageKey = image.substring(image.lastIndexOf('/') * 1);
 
     axios
-      .post("/api/uploadthing/delete", { imageKey })
+      .post('/api/uploadthing/delete', { imageKey })
       .then((res) => {
         if (res.data.success) {
-          setImage("");
+          setImage('');
           toast({
-            variant: "success",
-            description: "Image removed",
+            variant: 'success',
+            description: 'Image removed'
           });
         }
       })
       .catch(() => {
         toast({
-          variant: "destructive",
-          description: "Something went wrong",
+          variant: 'destructive',
+          description: 'Something went wrong'
         });
       })
       .finally(() => {
@@ -149,15 +149,15 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <h3 className="text-lg  font-semibold">
-            {hotel ? "update your hotel" : "Describe your hotel"}
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+          <h3 className='text-lg  font-semibold'>
+            {hotel ? 'update your hotel' : 'Describe your hotel'}
           </h3>
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="flex-1 flex flex-col gap-6">
+          <div className='flex flex-col md:flex-row gap-6'>
+            <div className='flex-1 flex flex-col gap-6'>
               <FormField
                 control={form.control}
-                name="title"
+                name='title'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Hotel Title *</FormLabel>
@@ -165,7 +165,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                       Kindly provide your hotel name
                     </FormDescription>
                     <FormControl>
-                      <Input placeholder="Veron Hotel" {...field} />
+                      <Input placeholder='Veron Hotel' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -173,7 +173,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
               />
               <FormField
                 control={form.control}
-                name="description"
+                name='description'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Hotel Description *</FormLabel>
@@ -186,7 +186,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                     </FormDescription>
                     <FormControl>
                       <Textarea
-                        placeholder="Give a description of what you want and we will be pleased to serve you"
+                        placeholder='Give a description of what you want and we will be pleased to serve you'
                         {...field}
                       />
                     </FormControl>
@@ -203,12 +203,12 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                   pleased to serve you better
                 </FormDescription>
               </div>
-              <div className="grid grid-cols-2 gap-4 mt-2">
+              <div className='grid grid-cols-2 gap-4 mt-2'>
                 <FormField
                   control={form.control}
-                  name="gym"
+                  name='gym'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -222,9 +222,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="spa"
+                  name='spa'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -238,9 +238,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="bar"
+                  name='bar'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -254,9 +254,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="laundry"
+                  name='laundry'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -270,9 +270,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="resturant"
+                  name='resturant'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -286,9 +286,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="shopping"
+                  name='shopping'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -302,9 +302,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="freeParking"
+                  name='freeParking'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -318,9 +318,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="bikeRental"
+                  name='bikeRental'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -334,9 +334,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="freeWifi"
+                  name='freeWifi'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -350,9 +350,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="movieNight"
+                  name='movieNight'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -366,9 +366,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="swimmingPool"
+                  name='swimmingPool'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -382,9 +382,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                 />
                 <FormField
                   control={form.control}
-                  name="coffeeShop"
+                  name='coffeeShop'
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 rounded-md border p-4">
+                    <FormItem className='flex flex-row items-start space-x-3 rounded-md border p-4'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -400,9 +400,9 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
             </div>
             <FormField
               control={form.control}
-              name="image"
+              name='image'
               render={({ field }) => (
-                <FormItem className="flex flex-col space-y-3">
+                <FormItem className='flex flex-col space-y-3'>
                   <FormLabel>Please upload your image*</FormLabel>
                   <FormDescription>
                     Kindly select an image for your hotel
@@ -410,42 +410,43 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                   <FormControl>
                     {image ? (
                       <>
-                        <div className="relative max-w-[400px] min-w-[200px] max-h-[400px] min-h-[200] mt-4 ">
+                        <div className='relative max-w-[400px] min-w-[200px] max-h-[400px] min-h-[200] mt-4 '>
                           <Image
                             fill
                             src={image}
-                            alt="Hotel Image"
-                            className="object-contain"
+                            alt='Hotel Image'
+                            className='object-contain'
+                            style={{ width: "auto", height: "auto" }}
                           />
                           <Button
                             onClick={() => handleImageDelete(image)}
-                            type="button"
-                            size="icon"
-                            variant="ghost"
-                            className="absolute right-[-12px] top-0"
+                            type='button'
+                            size='icon'
+                            variant='ghost'
+                            className='absolute right-[-12px] top-0'
                           >
                             {imageIsDeleting ? <Loader2 /> : <XCircle />}
                           </Button>
                         </div>
-                      </>
-                    ) : (
+                      </> 
+                      ) : ( 
                       <>
-                        <div className="flex flex-col items-center max-w-[400px] p-12 border-2 border-dashed border-primary/50 rounded mt-4">
+                        <div className='flex flex-col items-center max-w-[400px] p-12 border-2 border-dashed border-primary/50 rounded mt-4'>
                           <UploadButton
-                            endpoint="imageUploader"
+                            endpoint='imageUploader'
                             onClientUploadComplete={(res) => {
                               // Do something with the response
                               console.log("Files: ", res);
                               setImage(res[0].url);
                               toast({
-                                variant: "success",
-                                description: "Upload Successful",
+                                variant: 'success',
+                                description: 'Upload Successful',
                               });
                             }}
                             onUploadError={(error: Error) => {
                               toast({
-                                variant: "destructive",
-                                description: "ERROR! ${error.message}",
+                                variant: 'destructive',
+                                description: 'ERROR! ${error.message}',
                               });
                             }}
                           />
@@ -457,11 +458,11 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
               )}
             />
           </div>
-          <div className="flex-1 flex flex-col gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className='flex-1 flex flex-col gap-6'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
               <FormField
                 control={form.control}
-                name="country"
+                name='country'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Select Country *</FormLabel>
@@ -474,8 +475,8 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                     value = {field.value}
                     defaultValue = {field.value}
                     >
-                      <SelectTrigger className="w- bg- background">
-                        <SelectValue defaultValue={field.value} placeholder="Choose a country" />
+                      <SelectTrigger className='bg-background'>
+                        <SelectValue defaultValue={field.value} placeholder='Choose a country' />
                       </SelectTrigger>
                       <SelectContent>
                         {countries.map((country) => {
@@ -488,7 +489,7 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
               />
               <FormField
                 control={form.control}
-                name="state"
+                name='state'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Select State *</FormLabel>
@@ -501,8 +502,8 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                     value = {field.value}
                     defaultValue = {field.value}
                     >
-                      <SelectTrigger className="bg- background">
-                        <SelectValue defaultValue={field.value} placeholder="Choose a state" />
+                      <SelectTrigger className='bg-background'>
+                        <SelectValue defaultValue={field.value} placeholder='Choose a state' />
                       </SelectTrigger>
                       <SelectContent>
                         {states.map((state) => {
