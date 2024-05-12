@@ -1,5 +1,4 @@
 import { Country, State, City } from "country-state-city";
-import { getAllStates } from "country-state-city/lib/state";
 
 const useLocation = () => {
   const getCountryByCode = (countryCode: string) => {
@@ -32,7 +31,7 @@ const useLocation = () => {
   return {
     getAllCountries: Country.getAllCountries,
     getCountryByCode,
-    getStateByCode,
+    getStateByCode,  
     getCountryStates,
     getStateCities,
   };
