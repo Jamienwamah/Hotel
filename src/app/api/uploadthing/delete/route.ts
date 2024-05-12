@@ -2,7 +2,12 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { UTApi } from "uploadthing/server";
 
-const utapi = new UTApi
+require('dotenv').config();
+
+
+const apiKey = process.env.UPLOADTHING_SECRET || ''; 
+
+const utapi = new UTApi({ apiKey });
 
 export async function POST(req:Request) {
     const {userId} = auth()
